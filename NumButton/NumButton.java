@@ -1,7 +1,7 @@
 package NumButton;
 
+import java.awt.Font;
 import javax.swing.JButton;
-import NumButton.NumButton;
 
 public class NumButton {
    public JButton btn;
@@ -10,6 +10,7 @@ public class NumButton {
    public NumButton(int posX, int posY, String  num) {
       btn = new JButton(num);
       btnNum = num;
+      btn.setFont(new Font("Cica", Font.PLAIN, 28));
    }
 
    public String getNum() {

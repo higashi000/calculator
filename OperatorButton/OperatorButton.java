@@ -1,6 +1,7 @@
 package OperatorButton;
 
 import javax.swing.JButton;
+import java.awt.Font;
 
 public class OperatorButton {
    public JButton btn;
@@ -9,7 +10,7 @@ public class OperatorButton {
    public OperatorButton(int posX, int posY, String  operatorStr) {
       operator = operatorStr;
       btn = new JButton(operatorStr);
-      btn.setBounds(posX, posY, 20, 20);
+      btn.setFont(new Font("Cica", Font.PLAIN, 28));
    }
 
    public String getOperator() {

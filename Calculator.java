@@ -4,8 +4,10 @@ import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.GridLayout;
 import NumButton.NumButton;
 import OperatorButton.OperatorButton;
 
@@ -27,15 +29,16 @@ class Calculator extends JFrame implements ActionListener {
       addOperatorFlg = false;
 
       setTitle(title);
-      setBounds(100, 100, 600, 400);
+      setBounds(100, 100, 600, 600);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
       p = new JPanel();
+      p.setLayout(new GridLayout(4, 4));
       btns = new NumButton[10];
       opebtn = new OperatorButton[6];
-      textarea = new JTextArea(1, 30);
+      textarea = new JTextArea();
+      textarea.setFont(new Font("Cica", Font.PLAIN, 60));
 
-      p.add(textarea);
 
       int btnPosX[] = {0, 25, 50, 0, 25, 50, 0, 25, 50, 25};
       int btnPosY[] = {0, 25, 50, 0, 25, 50, 0, 25, 50, 25};
@@ -45,16 +48,32 @@ class Calculator extends JFrame implements ActionListener {
          btns[i] = new NumButton(btnPosX[i], btnPosY[i], String.valueOf(i));
          btns[i].btn.addActionListener(this);
          btns[i].btn.setBounds(btnPosX[i], btnPosY[i], 20, 20);
-         p.add(btns[i].btn);
       }
 
       for (int i = 0; i < 6; i++) {
          opebtn[i] = new OperatorButton(0, 0, operators[i]);
          opebtn[i].btn.addActionListener(this);
-         p.add(opebtn[i].btn);
       }
 
+      p.add(btns[7].btn);
+      p.add(btns[8].btn);
+      p.add(btns[9].btn);
+      p.add(opebtn[0].btn);
+      p.add(btns[4].btn);
+      p.add(btns[5].btn);
+      p.add(btns[6].btn);
+      p.add(opebtn[1].btn);
+      p.add(btns[1].btn);
+      p.add(btns[2].btn);
+      p.add(btns[3].btn);
+      p.add(opebtn[2].btn);
+      p.add(btns[0].btn);
+      p.add(opebtn[5].btn);
+      p.add(opebtn[4].btn);
+      p.add(opebtn[3].btn);
+
       getContentPane().add(p, BorderLayout.CENTER);
+      getContentPane().add(textarea, BorderLayout.NORTH);
    }
 
    public void actionPerformed(ActionEvent e){
