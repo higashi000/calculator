@@ -17,7 +17,8 @@ class Calculator extends JFrame implements ActionListener {
    NumButton btns[];
    OperatorButton opebtn[];
    JTextArea textarea;
-   boolean addOperatorFlg;
+   String addOperator;
+   boolean isClear;
 
    public static void main(String args[]){
       Calculator frame = new Calculator("Calculator");
@@ -26,7 +27,8 @@ class Calculator extends JFrame implements ActionListener {
 
    Calculator(String title){
       formula = "";
-      addOperatorFlg = false;
+      addOperator = "";
+      isClear = false;
 
       setTitle(title);
       setBounds(100, 100, 600, 600);
@@ -79,60 +81,106 @@ class Calculator extends JFrame implements ActionListener {
    public void actionPerformed(ActionEvent e){
       for (var btn: btns) {
          if (e.getSource() == btn.btn) {
+            if (isClear) {
+               formula = "";
+               isClear = false;
+            }
             formula += btn.getNum();
             textarea.setText(formula);
          }
       }
 
-      if (e.getSource() == opebtn[0].btn && !addOperatorFlg) {
+      if (e.getSource() == opebtn[0].btn && (addOperator == "" || addOperator == "÷")) {
+         if (isClear) {
+            isClear = false;
+         }
+
          formula += opebtn[0].getOperator();
          textarea.setText(formula);
-         addOperatorFlg = true;
-      } else if (e.getSource() == opebtn[1].btn && !addOperatorFlg) {
+         addOperator = "÷";
+      } else if (e.getSource() == opebtn[1].btn && (addOperator == "" || addOperator == "×")) {
+         if (isClear) {
+            isClear = false;
+         }
+
          formula += opebtn[1].getOperator();
          textarea.setText(formula);
-         addOperatorFlg = true;
-      } else if (e.getSource() == opebtn[2].btn && !addOperatorFlg) {
+         addOperator = "×";
+      } else if (e.getSource() == opebtn[2].btn && (addOperator == "" || addOperator == "ー")) {
+         if (isClear) {
+            isClear = false;
+         }
+
          formula += opebtn[2].getOperator();
          textarea.setText(formula);
-         addOperatorFlg = true;
-      } else if (e.getSource() == opebtn[3].btn && !addOperatorFlg) {
+         addOperator = "ー";
+      } else if (e.getSource() == opebtn[3].btn && (addOperator == "" || addOperator == "＋")) {
+         if (isClear) {
+            isClear = false;
+         }
+
          formula += opebtn[3].getOperator();
          textarea.setText(formula);
-         addOperatorFlg = true;
+         addOperator = "＋";
       } else if (e.getSource() == opebtn[4].btn) {
-         formula = String.valueOf(Calc(formula));
+         formula = Calc(formula);
          textarea.setText(formula);
-         addOperatorFlg = false;
+         addOperator = "";
+         isClear = true;
       } else if (e.getSource() == opebtn[5].btn) {
          formula = "";
          textarea.setText(formula);
-         addOperatorFlg = false;
+         addOperator = "";
       }
    }
 
-   public double Calc(String ope) {
+   public String Calc(String ope) {
       double res = 0;
 
       if (ope.indexOf("＋") != -1) {
          String nums[] = ope.split("＋", 0);
 
-         res = Double.parseDouble(nums[0]) + Double.parseDouble(nums[1]);
+         for (var i : nums) {
+            res = res + Double.parseDouble(i);
+         }
       } else if (ope.indexOf("ー") != -1) {
          String nums[] = ope.split("ー", 0);
 
-         res = Double.parseDouble(nums[0]) - Double.parseDouble(nums[1]);
+         res = Double.parseDouble(nums[0]);
+
+         for (var i = 0; i < nums.length; i++) {
+            if (i != 0) {
+               res = res - Double.parseDouble(nums[i]);
+            }
+         }
       } else if (ope.indexOf("×") != -1) {
          String nums[] = ope.split("×", 0);
 
-         res = Double.parseDouble(nums[0]) * Double.parseDouble(nums[1]);
+         res = Double.parseDouble(nums[0]);
+
+         for (var i = 0; i < nums.length; i++) {
+            if (i != 0) {
+               res = res * Double.parseDouble(nums[i]);
+            }
+         }
       } else if (ope.indexOf("÷") != -1) {
          String nums[] = ope.split("÷", 0);
 
-         res = Double.parseDouble(nums[0]) / Double.parseDouble(nums[1]);
+         res = Double.parseDouble(nums[0]);
+
+         for (var i = 0; i < nums.length; i++) {
+            if (i != 0) {
+               res = res / Double.parseDouble(nums[i]);
+            }
+         }
       }
 
-      return res;
-   }
+      double decimal = res - (int)res;
 
+      if (decimal == 0) {
+         return String.valueOf((int)res);
+      }
+
+      return String.valueOf(res);
+   }
 }
